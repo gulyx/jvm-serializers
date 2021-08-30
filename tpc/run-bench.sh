@@ -6,7 +6,7 @@ raw_result_dir="results/raw"
 mem=-Xmx256m
 clz=serializers.BenchmarkRunner
 
-cpgen=$(cat build/gen-cp)
+# cpgen=$(cat build/gen-cp)
 cplib=$(cat build/lib-cp)
 sep=':'
 # cygwin
