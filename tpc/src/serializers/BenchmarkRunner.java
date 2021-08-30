@@ -1,22 +1,22 @@
 package serializers;
 
-import serializers.avro.AvroGeneric;
-import serializers.avro.AvroSpecific;
-import serializers.capnproto.CapNProto;
-import serializers.colfer.Colfer;
-import serializers.datakernel.DataKernelSerializer;
-import serializers.flatbuffers.FlatBuffers;
+// import serializers.avro.AvroGeneric;
+// import serializers.avro.AvroSpecific;
+// import serializers.capnproto.CapNProto;
+// import serializers.colfer.Colfer;
+// import serializers.datakernel.DataKernelSerializer;
+// import serializers.flatbuffers.FlatBuffers;
 import serializers.jackson.*;
-import serializers.javaxjson.*;
+// import serializers.javaxjson.*;
 import serializers.json.*;
-import serializers.kryo.Kryo;
-import serializers.msgpack.MsgPack;
-import serializers.protobuf.Protobuf;
-import serializers.protobuf.ProtobufJson;
-import serializers.protostuff.Protostuff;
-import serializers.protostuff.ProtostuffJson;
-import serializers.wobly.Wobly;
-import serializers.xml.*;
+// import serializers.kryo.Kryo;
+// import serializers.msgpack.MsgPack;
+// import serializers.protobuf.Protobuf;
+// import serializers.protobuf.ProtobufJson;
+// import serializers.protostuff.Protostuff;
+// import serializers.protostuff.ProtostuffJson;
+// import serializers.wobly.Wobly;
+// import serializers.xml.*;
 
 /**
  * Full test of various codecs, using a single <code>MediaItem</code>
@@ -31,6 +31,7 @@ public class BenchmarkRunner extends MediaItemBenchmark
     @Override
     protected void addTests(TestGroups groups)
     {
+/*
         // Binary Formats; language-specific ones
         JavaBuiltIn.register(groups);
         JavaManual.register(groups);
@@ -82,51 +83,53 @@ public class BenchmarkRunner extends MediaItemBenchmark
         FlexjsonDatabind.register(groups);
 
         JsonLibJsonDatabind.register(groups);
+*/
+
         FastJSONDatabind.register(groups);
         FastJSONArrayDatabind.register(groups);
-        JsonSimpleWithContentHandler.register(groups);
-//        JsonSimpleManualTree.register(groups);
-        JsonSmartManualTree.register(groups);
-        JsonDotOrgManualTree.register(groups);
-        JsonijJpath.register(groups);
-// JsonijManualTree.register(groups);
-        JsonArgoTree.register(groups);
-// 06-May-2013, tatu: Too slow (100x above fastest)
-// JsonPathDeserializerOnly.register(groups);
-
-        // Then JSON-like binary variants
-        // Smile is 1-to-1 binary JSON serialization
-        JacksonSmileManual.register(groups);
-        JacksonSmileDatabind.register(groups);
-
-	// 06-May-2013, tatu: Unfortunately there is a version conflict
-        //    here too -- commenting out, to let David fix it
-//        ProtostuffSmile.register(groups);
-        // BSON is JSON-like format with extended datatypes
-        MongoDB.register(groups);
-
-        // XML-based formats; first textual XML
-        XmlStax.register(groups, true, true, false); // woodstox/aalto/-
-        XmlXStream.register(groups);
-        JacksonXmlDatabind.register(groups);
-        XmlJavolution.register(groups);
-
-        // Then binary XML; Fast Infoset, EXI
-        XmlStax.register(groups, false, false, true); // -/-/fast-infoset
-        ExiExificient.register(groups);
-
-        // Other things...
-
-        // Jackson databind with Afterburner; add-on module that uses bytecode gen for speed
-        JacksonWithAfterburner.registerAll(groups);
-
-        // Jackson's column-oriented variants for formats that usually use key/value notation
-        JacksonWithColumnsDatabind.registerAll(groups);
-
-        serializers.dsljson.DSLJson.register(groups);
-        FlatBuffers.register(groups);
-        CapNProto.register(groups);
-        Colfer.register(groups);
-        DataKernelSerializer.register(groups);
+//         JsonSimpleWithContentHandler.register(groups);
+// //        JsonSimpleManualTree.register(groups);
+//         JsonSmartManualTree.register(groups);
+//         JsonDotOrgManualTree.register(groups);
+//         JsonijJpath.register(groups);
+// // JsonijManualTree.register(groups);
+//         JsonArgoTree.register(groups);
+// // 06-May-2013, tatu: Too slow (100x above fastest)
+// // JsonPathDeserializerOnly.register(groups);
+// 
+//         // Then JSON-like binary variants
+//         // Smile is 1-to-1 binary JSON serialization
+//         JacksonSmileManual.register(groups);
+//         JacksonSmileDatabind.register(groups);
+// 
+// 	// 06-May-2013, tatu: Unfortunately there is a version conflict
+//         //    here too -- commenting out, to let David fix it
+// //        ProtostuffSmile.register(groups);
+//         // BSON is JSON-like format with extended datatypes
+//         MongoDB.register(groups);
+// 
+//         // XML-based formats; first textual XML
+//         XmlStax.register(groups, true, true, false); // woodstox/aalto/-
+//         XmlXStream.register(groups);
+//         JacksonXmlDatabind.register(groups);
+//         XmlJavolution.register(groups);
+// 
+//         // Then binary XML; Fast Infoset, EXI
+//         XmlStax.register(groups, false, false, true); // -/-/fast-infoset
+//         ExiExificient.register(groups);
+// 
+//         // Other things...
+// 
+//         // Jackson databind with Afterburner; add-on module that uses bytecode gen for speed
+//         JacksonWithAfterburner.registerAll(groups);
+// 
+//         // Jackson's column-oriented variants for formats that usually use key/value notation
+//         JacksonWithColumnsDatabind.registerAll(groups);
+// 
+//         serializers.dsljson.DSLJson.register(groups);
+//         FlatBuffers.register(groups);
+//         CapNProto.register(groups);
+//         Colfer.register(groups);
+//         DataKernelSerializer.register(groups);
     }
 }
