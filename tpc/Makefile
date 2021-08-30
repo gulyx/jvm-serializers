@@ -43,15 +43,16 @@ Generate_capnproto ?= n
 Generate_colfer ?= n
 
 # Default to 'yes' because the generator tools are included in 'lib/'.
-Generate_activemqprotobuf ?= y
-Generate_avro ?= y
-Generate_protostuff ?= y
+Generate_activemqprotobuf ?= n
+Generate_avro ?= n
+Generate_protostuff ?= n
 
 ##########################################################################
 
 .PHONY: default compile
 .DELETE_ON_ERROR:
-default: compile build/gen-cp build/lib-cp
+# default: compile build/gen-cp build/lib-cp
+default: compile
 
 
 p1 := @
@@ -167,7 +168,7 @@ build/bytecode/main.compile: build/bytecode/gen/$(2).compile
 
 endef
 
-$(foreach s,$(Schemas),$(eval $(call EachSchema,$(subst .,_,$(s)),$(s))))
+# $(foreach s,$(Schemas),$(eval $(call EachSchema,$(subst .,_,$(s)),$(s))))
 
 ##########################################################################
 # Compile main code
@@ -177,22 +178,27 @@ JavaSourceDirs = $(shell find $(JavaSourceRoots) -type d)
 JavaSourceFiles = $(shell find $(JavaSourceRoots) -type f -name '*.java')
 ScalaSourceFiles = $(shell find $(JavaSourceRoots) -type f -name '*.scala')
 
-build/bytecode/main.compile: $(JavaSourceRoots) $(JavaSourceDirs) $(JavaSourceFiles) $(ScalaSourceFiles) lib build/lib-cp build/gen-cp $(wildcard lib/*.jar) $(Schemas:%=build/bytecode/gen/%.compile)
+# build/bytecode/main.compile: $(JavaSourceRoots) $(JavaSourceDirs) $(JavaSourceFiles) $(ScalaSourceFiles) lib build/lib-cp build/gen-cp $(wildcard lib/*.jar) $(Schemas:%=build/bytecode/gen/%.compile)
+build/bytecode/main.compile: $(JavaSourceRoots) lib build/lib-cp 
 	$(p2)[ ! -e build/bytecode/main ] || rm -r build/bytecode/main
 	$(p2)mkdir -p build/bytecode/main
 	$(p2)touch "$@"
 ifeq ($(JavaSourceFiles),)
 	# Compile: $(JavaSourceRoots) (empty)
 else
-	# Compile: $(JavaSourceRoots) [scalac]
-	$(p1)support/scala/scalac -d build/bytecode/main \
-		-deprecation \
-		-cp "$(call mkcp,$(shell cat build/lib-cp) $(shell cat build/gen-cp))" \
-		$(ScalaSourceFiles) $(JavaSourceFiles)
+# 	# Compile: $(JavaSourceRoots) [scalac]
+# 	$(p1)support/scala/scalac -d build/bytecode/main \
+# 		-deprecation \
+# 		-cp "$(call mkcp,$(shell cat build/lib-cp) $(shell cat build/gen-cp))" \
+# 		$(ScalaSourceFiles) $(JavaSourceFiles)
 	# Compile: $(JavaSourceRoots) [javac]
+# 	$(p1)$(JavaC) $(JavaC_Opt) -d build/bytecode/main \
+# 		-deprecation \
+# 		-classpath "$(call mkcp,build/bytecode/main $(shell cat build/lib-cp) $(shell cat build/gen-cp))" \
+# 		$(JavaSourceFiles)
 	$(p1)$(JavaC) $(JavaC_Opt) -d build/bytecode/main \
 		-deprecation \
-		-classpath "$(call mkcp,build/bytecode/main $(shell cat build/lib-cp) $(shell cat build/gen-cp))" \
+		-classpath "$(call mkcp,build/bytecode/main $(shell cat build/lib-cp))" \
 		$(JavaSourceFiles)
 	# Copy resources
 	$(p2)cp $(JavaSourceRoots)/log4j.xml build/bytecode/main
