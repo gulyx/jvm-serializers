@@ -7,7 +7,12 @@ mem=-Xmx256m
 clz=serializers.BenchmarkRunner
 
 # cpgen=$(cat build/gen-cp)
-cplib=$(cat build/lib-cp)
+########################
+# cplib=$(cat build/lib-cp)
+cplib=""
+for libName in `find ./lib -name "*.jar"`; do cplib="$cplib:$libName"; done
+cplib=`echo $cplib | sed "s/://"`
+########################
 sep=':'
 # cygwin
 case "`uname`" in
